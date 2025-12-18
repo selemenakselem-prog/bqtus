@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Kayıt Sistemi</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        body {
+            background: #f5f5f5;
+            padding: 15px;
+            max-width: 900px;
+            margin: auto;
+        }
+        h1, h2 {
+            color: #333;
+            text-align: center;
+        }
+        .menu {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .menu button {
+            padding: 15px 25px;
+            font-size: 17px;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            background-color: #007bff;
+            color: white;
+            flex: 1;
+            font-weight: 600;
+        }
+        .menu button:active {
+            background-color: #0056b3;
+            transform: scale(0.98);
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-top: 15px;
+            display: none;
+        }
+        .form-group {
+            margin-bottom: 18px;
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #333;
+            font-size: 15px;
+        }
+        input[type="text"], textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            background: #fafafa;
+        }
+        .model-tipi-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        .model-tipi-group {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+        .model-tipi-group label {
+            font-size: 14px;
+            color: #495057;
+        }
+        .model-tipi-group select {
+            margin-top: 5px;
+            background: white;
+        }
+        button[type="submit"] {
+            width: 100%;
+            padding: 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button[type="submit"]:active {
+            background-color: #218838;
+            transform: scale(0.98);
+        }
+        .kayit {
+            border: 1px solid #e0e0e0;
+            padding: 15px;
+            margin: 12px 0;
+            border-radius: 10px;
+            background: #fff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .kayit-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .kayit-model {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .kayit-tarih {
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+        .kayit-detay {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin: 10px 0;
+            font-size: 14px;
+        }
+        .kayit-detay-item {
+            background: #f8f9fa;
+            padding: 8px;
+            border-radius: 6px;
+        }
+        .kayit-detay-item strong {
+            color: #495057;
+        }
+        .kayit-not {
+            margin-top: 10px;
+            padding: 10px;
+            background: #e8f4fd;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #2c3e50;
+        }
+        .sil-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+        .sil-btn:active {
+            background-color: #c0392b;
+        }
+        .toplam-kayit {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid #eee;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>📁 Model Kayıt Sistemi</h1>
+    
+    <div class="menu">
+        <button onclick="secimYap(22)">22 Model</button>
+        <button onclick="secimYap(14)">14 Model</button>
+    </div>
+
+    <!-- 22 için form -->
+    <div id="container22" class="container">
+        <h2>22 Model - Yeni Kayıt</h2>
+        <form id="form22">
+            <div class="form-group">
+                <label for="modelAdi22">Model Adı / Kodu *</label>
+                <input type="text" id="modelAdi22" placeholder="Örn: M-2024-001" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="mikron22">Kaç Mikron</label>
+                <input type="text" id="mikron22" placeholder="Örn: 40 mikron">
+            </div>
+            
+            <div class="form-group">
+                <label for="gr22">Gramaj (Gr)</label>
+                <input type="text" id="gr22" placeholder="Örn: 180 gr">
+            </div>
+            
+            <div class="model-tipi-container">
+                <div class="model-tipi-group">
+                    <label for="mekik22">Mekik</label>
+                    <select id="mekik22">
+                        <option value="">Seçiniz</option>
+                        <option value="Var">Var</option>
+                        <option value="Yok">Yok</option>
+                    </select>
+                </div>
+                
+                <div class="model-tipi-group">
+                    <label for="cifkafa22">Cifkafa</label>
+                    <select id="cifkafa22">
+                        <option value="">Seçiniz</option>
+                        <option value="Var">Var</option>
+                        <option value="Yok">Yok</option>
+                    </select>
+                </div>
+                
+                <div class="model-tipi-group">
+                    <label for="yeniModel22">Yeni Model</label>
+                    <select id="yeniModel22">
+                        <option value="">Seçiniz</option>
+                        <option value="Evet">Evet</option>
+                        <option value="Hayır">Hayır</option>
+                    </select>
+                </div>
+                
+                <div class="model-tipi-group">
+                    <label for="kare22">Kare</label>
+                    <select id="kare22">
+                        <option value="">Seçiniz</option>
+                        <option value="Var">Var</option>
+                        <option value="Yok">Yok</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="not22">Ek Notlar (Opsiyonel)</label>
+                <textarea id="not22" placeholder="Ek açıklamalar..." rows="2"></textarea>
+            </div>
+            
+            <button type="submit">✅ Kaydet</button>
+        </form>
+        <hr>
+        <h3>📋 Kayıtlı 22 Modelleri</h3>
+        <div class="toplam-kayit" id="sayac22"></div>
+        <div id="kayitlar22"></div>
+    </div>
+
+    <!-- 14 için form -->
+    <div id="container14" class="container">
+        <h2>14 Model - Yeni Kayıt</h2>
+        <form id="form14">
+            <div class="form-group">
+                <label for="modelAdi14">Model Adı / Kodu *</label>
+                <input type="text" id="modelAdi14" placeholder="Örn: M-2024-002" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="mikron14">Kaç Mikron</label>
+                <input type="text" id="mikron14" placeholder="Örn: 30 mikron">
+            </div>
+            
+            <div class="form-group">
+                <label for="gr14">Gramaj (Gr)</label>
+                <input type="text" id="gr14" placeholder="Örn: 150 gr">
+            </div>
+            
+            <div class="model-tipi-container">
+                <div class="model-tipi-group">
+                    <label for="mekik14">Mekik</label>
+                    <select id="mekik14">
+                        <option value="">Seçiniz</option>
+                        <option value="Var">Var</option>
+                        <option value="Yok">Yok</option>
+                    </select>
+                </div>
+                
+                <div class="model-tipi-group">
+                    <label for="cifkafa14">Cifkafa</label>
+                    <select id="cifkafa14">
+                        <option value="">Seçiniz</option>
+                        <option value="Var">Var</option>
+                        <option value="Yok">Yok</option>
+                    </select>
+                </div>
+                
+                <div class="model-tipi-group">
+                    <label for="yeniModel14">Yeni Model</label>
+                    <select id="yeniModel14">
+                        <option value="">Seçiniz</option>
+                        <option value="Evet">Evet</option>
+                        <option value="Hayır">Hayır</option>
+                    </select>
+                </div>
+                
+                <div class="model-tipi-group">
+                    <label for="kare14">Kare</label>
+                    <select id="kare14">
+                        <option value="">Seçiniz</option>
+                        <option value="Var">Var</option>
+                        <option value="Yok">Yok</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="not14">Ek Notlar (Opsiyonel)</label>
+                <textarea id="not14" placeholder="Ek açıklamalar..." rows="2"></textarea>
+            </div>
+            
+            <button type="submit">✅ Kaydet</button>
+        </form>
+        <hr>
+        <h3>📋 Kayıtlı 14 Modelleri</h3>
+        <div class="toplam-kayit" id="sayac14"></div>
+        <div id="kayitlar14"></div>
+    </div>
+
+    <script>
+        // Sayfa yüklendiğinde
+        document.addEventListener('DOMContentLoaded', function() {
+            // localStorage'dan kayıtları kontrol et
+            if (!localStorage.getItem('kayitlar22')) {
+                localStorage.setItem('kayitlar22', JSON.stringify([]));
+            }
+            if (!localStorage.getItem('kayitlar14')) {
+                localStorage.setItem('kayitlar14', JSON.stringify([]));
+            }
+            
+            // İlk açılışta 22'yi göster
+            secimYap(22);
+        });
+
+        // Seçim yapma fonksiyonu
+        function secimYap(secenek) {
+            // Tüm container'ları gizle
+            document.getElementById('container22').style.display = 'none';
+            document.getElementById('container14').style.display = 'none';
+            
+            // Seçileni göster
+            const container = document.getElementById('container' + secenek);
+            container.style.display = 'block';
+            
+            // Kayıtları listele
+            kayitlariListele(secenek);
+        }
+
+        // Form submit işlemleri
+        document.getElementById('form22').addEventListener('submit', function(e) {
+            e.preventDefault();
+            kaydet(22);
+        });
+
+        document.getElementById('form14').addEventListener('submit', function(e) {
+            e.preventDefault();
+            kaydet(14);
+        });
+
+        // Kaydetme fonksiyonu
+        function kaydet(secenek) {
+            const modelAdi = document.getElementById('modelAdi' + secenek).value.trim();
+            
+            if (!modelAdi) {
+                alert('Model adı gereklidir!');
+                return;
+            }
+
+            const kayit = {
+                id: Date.now(), // Benzersiz ID
+                modelAdi: modelAdi,
+                mikron: document.getElementById('mikron' + secenek).value.trim(),
+                gr: document.getElementById('gr' + secenek).value.trim(),
+                // Model tipi seçenekleri
+                mekik: document.getElementById('mekik' + secenek).value,
+                cifkafa: document.getElementById('cifkafa' + secenek).value,
+                yeniModel: document.getElementById('yeniModel' + secenek).value,
+                kare: document.getElementById('kare' + secenek).value,
+                // Ek not
+                not: document.getElementById('not' + secenek).value.trim(),
+                // Tarih
+                tarih: new Date().toLocaleDateString('tr-TR', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                })
+            };
+
+            // localStorage'dan mevcut kayıtları al
+            let kayitlar = JSON.parse(localStorage.getItem('kayitlar' + secenek) || '[]');
+
+            // Yeni kaydı ekle
+            kayitlar.push(kayit);
+
+            // localStorage'a kaydet
+            localStorage.setItem('kayitlar' + secenek, JSON.stringify(kayitlar));
+
+            // Formu temizle
+            document.getElementById('form' + secenek).reset();
+
+            // Listeyi güncelle
+            kayitlariListele(secenek);
+
+            // Başarılı mesajı
+            alert('✅ Model başarıyla kaydedildi!');
+        }
+
+        // Kayıtları listele
+        function kayitlariListele(secenek) {
+            const kayitlarDiv = document.getElementById('kayitlar' + secenek);
+            const sayacDiv = document.getElementById('sayac' + secenek);
+            
+            // Kayıtları al
+            let kayitlar = JSON.parse(localStorage.getItem('kayitlar' + secenek) || '[]');
+            
+            // Toplam kayıt sayısını göster
+            sayacDiv.textContent = Toplam: ${kayitlar.length} kayıt;
+            
+            // Eğer kayıt yoksa
+            if (kayitlar.length === 0) {
+                kayitlarDiv.innerHTML = '<div class="kayit" style="text-align: center; color: #666;">Henüz kayıtlı model bulunmuyor.</div>';
+                return;
+            }
+            
+            // HTML oluştur
+            let html = '';
+            
+            // Ters sırada (en yeni en üstte)
+            kayitlar.slice().reverse().forEach(kayit => {
+                html += `
+                    <div class="kayit">
+                        <div class="kayit-header">
+                            <div class="kayit-model">${kayit.modelAdi}</div>
+                            <div class="kayit-tarih">${kayit.tarih}</div>
+                        </div>
+                        
+                        <div class="kayit-detay">
+                            ${kayit.mikron ? <div class="kayit-detay-item"><strong>Mikron:</strong> ${kayit.mikron}</div> : ''}
+                            ${kayit.gr ? <div class="kayit-detay-item"><strong>Gr:</strong> ${kayit.gr}</div> : ''}
+                            <div class="kayit-detay-item"><strong>Mekik:</strong> ${kayit.mekik || '-'}</div>
+                            <div class="kayit-detay-item"><strong>Cifkafa:</strong> ${kayit.cifkafa || '-'}</div>
+                            <div class="kayit-detay-item"><strong>Yeni Model:</strong> ${kayit.yeniModel || '-'}</div>
+                            <div class="kayit-detay-item"><strong>Kare:</strong> ${kayit.kare || '-'}</div>
+                        </div>
+                        
+                        ${kayit.not ? <div class="kayit-not"><strong>Not:</strong> ${kayit.not}</div> : ''}
+                        
+                        <button class="sil-btn" onclick="kayitSil(${secenek}, ${kayit.id})">🗑️ Sil</button>
+                    </div>
+                `;
+            });
+            
+            kayitlarDiv.innerHTML = html;
+        }
+
+        // Kayıt silme
+        function kayitSil(secenek, id) {
+            if (!confirm('Bu kaydı silmek istediğinize emin misiniz?')) return;
+            
+            let kayitlar = JSON.parse(localStorage.getItem('kayitlar' + secenek) || '[]');
+            
+            // ID'ye göre filtrele
+            kayitlar = kayitlar.filter(kayit => kayit.id !== id);
+            
+            // Tekrar kaydet
+            localStorage.setItem('kayitlar' + secenek, JSON.stringify(kayitlar));
+            
+            // Listeyi güncelle
+            kayitlariListele(secenek);
+            
+            alert('Kayıt silindi.');
+        }
+
+        // iOS için özel stil
+        if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+            document.styleSheets[0].insertRule(`
+                input, select, textarea {
+                    font-size: 16px !important;
+                }
+                .menu button {
+                    padding: 18px 20px;
+                }
+                button[type="submit"] {
+                    padding: 18px;
+                }
+            `, 0);
+        }
+    </script>
+</body>
+</html>
